@@ -9,15 +9,9 @@ namespace FreedLOW.Painting.Infrastructure.Services.Input
         
         public bool IsRotating() => _isRotating;
         
-        public bool HasClick()
-        {
-            return UnityEngine.Input.GetMouseButton(0);
-        }
+        public bool HasClick() => UnityEngine.Input.GetMouseButton(0);
 
-        public Vector3 GetInput()
-        {
-            return UnityEngine.Input.mousePosition;
-        }
+        public Vector3 GetInput() => UnityEngine.Input.mousePosition;
 
         public Vector2 GetInputDelta()
         {

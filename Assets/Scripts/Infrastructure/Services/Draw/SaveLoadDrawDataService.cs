@@ -29,7 +29,7 @@ namespace FreedLOW.Painting.Infrastructure.Services.Draw
             Debug.Log($"Texture saved to {_savePath}");
         }
 
-        public async UniTask<bool> LoadTexture(string name)
+        public async UniTask<Texture2D> LoadTexture(string name)
         {
             _savePath = Path.Combine(Application.persistentDataPath, $"{name}.png");
 
@@ -38,11 +38,11 @@ namespace FreedLOW.Painting.Infrastructure.Services.Draw
                 byte[] bytes = await File.ReadAllBytesAsync(_savePath);
                 _paintService.SetSavedTextureData(bytes, _paintPrefsSavedData.LoadTextureSizeData());
                 Debug.Log($"Texture loaded from {_savePath}");
-                return bytes.Length > 0;
+                return _paintService.Texture;
             }
 
             Debug.LogError($"No saved texture found at {_savePath}");
-            return false;
+            return null;
         }
 
         private void DeleteSavedTexture()

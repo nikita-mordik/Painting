@@ -20,10 +20,8 @@ namespace FreedLOW.Painting.Infrastructure.Services.Draw
 
         public Texture2D Texture => _texture;
 
-        public bool IsCanDraw()
-        {
-            return _texture is not null && _collider is not null;
-        }
+        public bool IsCanDraw() => 
+            _texture is not null && _collider is not null;
 
         public void InitializeTexture(int textureSize = 512, TextureWrapMode wrapMode = TextureWrapMode.Clamp,
             FilterMode filterMode = FilterMode.Bilinear)
@@ -43,32 +41,19 @@ namespace FreedLOW.Painting.Infrastructure.Services.Draw
             _texture.Apply();
         }
 
-        public void SetBrushSize(int brushSize)
-        {
-            _brushSize = brushSize;
-        }
+        public void SetBrushSize(int brushSize) => _brushSize = brushSize;
 
-        public void SetBrushColor(Color color)
-        {
-            _color = color;
-        }
+        public void SetBrushColor(Color color) => _color = color;
 
-        public void InitializePaintTarget(Collider paintTargetCollider)
-        {
-            _collider = paintTargetCollider;
-        }
+        public void InitializePaintTarget(Collider paintTargetCollider) => _collider = paintTargetCollider;
 
         public void Draw(Ray ray)
         {
             if (!_collider.Raycast(ray, out _hit, DrawRayDistance)) 
                 return;
             
-            //Debug.LogError($"Hit point: {_hit.point}, Texture Coord: {_hit.textureCoord}");
-            
             int rayX = (int)(_hit.textureCoord.x * _textureSize);
             int rayY = (int)(_hit.textureCoord.y * _textureSize);
-
-            //Debug.LogError($"ray data: {rayX}/{rayY}. Size:{_textureSize}");
 
             if (_oldRayX != rayX || _oldRayY != rayY)
             {

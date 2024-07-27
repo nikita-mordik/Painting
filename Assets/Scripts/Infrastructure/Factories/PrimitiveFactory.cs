@@ -1,4 +1,3 @@
-using FreedLOW.Painting.Game;
 using FreedLOW.Painting.Infrastructure.AssetManagement;
 using UnityEngine;
 using Zenject;
@@ -21,40 +20,34 @@ namespace FreedLOW.Painting.Infrastructure.Factories
         public GameObject CreateCube(Vector3 at)
         {
             DeleteActiveObject();
-            
-            var prefab = _assetsProvider.LoadAsset(AssetsName.Cube);
-            var cube = _instantiator.InstantiatePrefab(prefab);
-            cube.transform.position = at;
-            _activeObject = cube;
-            return cube;
+            return CreateObjectAt(AssetsName.Cube, at);
         }
 
         public GameObject CreateSphere(Vector3 at)
         {
             DeleteActiveObject();
-            
-            var prefab = _assetsProvider.LoadAsset(AssetsName.Sphere);
-            var sphere = _instantiator.InstantiatePrefab(prefab);
-            sphere.transform.position = at;
-            _activeObject = sphere;
-            return sphere;
+            return CreateObjectAt(AssetsName.Sphere, at);
         }
 
         public GameObject CreateCapsule(Vector3 at)
         {
             DeleteActiveObject();
-            
-            var prefab = _assetsProvider.LoadAsset(AssetsName.Capsule);
-            var capsule = _instantiator.InstantiatePrefab(prefab);
-            capsule.transform.position = at;
-            _activeObject = capsule;
-            return capsule;
+            return CreateObjectAt(AssetsName.Capsule, at);
         }
 
         private void DeleteActiveObject()
         {
             if (_activeObject is not null) 
                 Object.Destroy(_activeObject);
+        }
+
+        private GameObject CreateObjectAt(string objectName, Vector3 at)
+        {
+            var prefab = _assetsProvider.LoadAsset(objectName);
+            var obj = _instantiator.InstantiatePrefab(prefab);
+            obj.transform.position = at;
+            _activeObject = obj;
+            return obj;
         }
     }
 }

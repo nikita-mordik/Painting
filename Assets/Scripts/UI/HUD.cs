@@ -91,7 +91,6 @@ namespace FreedLOW.Painting.UI
             GameObject cube = _primitiveFactory.CreateCube(Vector3.zero);
             _activeObjectName = cube.name;
             
-            // TODO: check if has paint data for this object
             await LoadOrInitializeTexture(cube);
 
             cubeButton.interactable = true;
@@ -104,7 +103,6 @@ namespace FreedLOW.Painting.UI
             GameObject sphere = _primitiveFactory.CreateSphere(Vector3.zero);
             _activeObjectName = sphere.name;
             
-            // TODO: check if has paint data for this object
             await LoadOrInitializeTexture(sphere);
 
             sphereButton.interactable = true;
@@ -117,31 +115,24 @@ namespace FreedLOW.Painting.UI
             GameObject capsule = _primitiveFactory.CreateCapsule(Vector3.zero);
             _activeObjectName = capsule.name;
             
-            // TODO: check if has paint data for this object
             await LoadOrInitializeTexture(capsule);
 
             capsuleButton.interactable = true;
         }
 
-        private void OnClearPaintData()
-        {
+        private void OnClearPaintData() => 
             _paintService.ClearTexture();
-        }
 
-        private void OnSavePaintData()
-        {
+        private void OnSavePaintData() => 
             _saveLoadService.SaveTexture(_activeObjectName);
-        }
-        
-        private void OnColorChanged(Color color)
-        {
+
+        private void OnColorChanged(Color color) => 
             _paintService.SetBrushColor(color);
-        }
 
         private async UniTask LoadOrInitializeTexture(GameObject go)
         {
-            var hasTexture = await _saveLoadService.LoadTexture(_activeObjectName);
-            if (!hasTexture) 
+            var texture = await _saveLoadService.LoadTexture(_activeObjectName);
+            if (texture is null) 
                 _paintService.InitializeTexture();
             
             go.GetComponent<Renderer>().material.mainTexture = _paintService.Texture;

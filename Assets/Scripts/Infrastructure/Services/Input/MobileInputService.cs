@@ -12,15 +12,9 @@ namespace FreedLOW.Painting.Infrastructure.Services.Input
         public bool IsRotating() => 
             _isRotating && UnityEngine.Input.touchCount > 1 && UnityEngine.Input.GetTouch(0).phase == TouchPhase.Moved;
 
-        public bool HasClick()
-        {
-            return UnityEngine.Input.touchCount > 0;
-        }
+        public bool HasClick() => UnityEngine.Input.touchCount > 0;
 
-        public Vector3 GetInput()
-        {
-            return UnityEngine.Input.GetTouch(0).position;
-        }
+        public Vector3 GetInput() => UnityEngine.Input.GetTouch(0).position;
 
         public Vector2 GetInputDelta()
         {
