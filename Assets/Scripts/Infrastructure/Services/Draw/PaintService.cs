@@ -4,7 +4,7 @@ namespace FreedLOW.Painting.Infrastructure.Services.Draw
 {
     public class PaintService : IPaintService
     {
-        private const float DrawRayDistance = 10f;
+        private const float DrawRayDistance = 100f;
         
         private Texture2D _texture;
         private int _textureSize;
@@ -58,8 +58,11 @@ namespace FreedLOW.Painting.Infrastructure.Services.Draw
             int rayX = (int)(hit.textureCoord.x * _textureSize);
             int rayY = (int)(hit.textureCoord.y * _textureSize);
 
+            Debug.LogError($"ray data: {rayX}/{rayY}");
+
             if (_oldRayX != rayX || _oldRayY != rayY)
             {
+                Debug.LogError("here before draw");
                 DrawCircleBrush(rayX, rayY);
                 _oldRayX = rayX;
                 _oldRayY = rayY;
@@ -119,6 +122,8 @@ namespace FreedLOW.Painting.Infrastructure.Services.Draw
                     }
                 }
             }
+
+            Debug.LogError("here draw");
 
             _texture.SetPixels(pixels);
             _texture.Apply();
