@@ -1,4 +1,5 @@
 using FreedLOW.Painting.Infrastructure.Factories;
+using FreedLOW.Painting.Infrastructure.Services.Draw;
 using FreedLOW.Painting.Infrastructure.Services.Input;
 using Zenject;
 
@@ -11,6 +12,8 @@ namespace FreedLOW.Painting.Infrastructure.Installers
             BindFactories();
 
             BindInputService();
+            
+            BindDrawServices();
         }
 
         private void BindFactories()
@@ -31,6 +34,17 @@ namespace FreedLOW.Painting.Infrastructure.Installers
                 .To<MobileInputService>()
                 .AsSingle();
 #endif
+        }
+
+        private void BindDrawServices()
+        {
+            Container.Bind<IPaintService>()
+                .To<PaintService>()
+                .AsSingle();
+
+            Container.Bind<ISaveLoadDrawDataService>()
+                .To<SaveLoadDrawDataService>()
+                .AsSingle();
         }
     }
 }
