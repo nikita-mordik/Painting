@@ -1605,6 +1605,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colorPaletteCanvas: {fileID: 1270054159}
+  colorPicker: {fileID: 1667049663}
   brushSizeSlider: {fileID: 1539242328}
   brushSizeText: {fileID: 2012735698}
   colorButton: {fileID: 1206491783}
@@ -2491,6 +2492,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1667049661}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1667049663 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 11454784, guid: b51b1107593c0d94288ccdaa607689ea,
+    type: 3}
+  m_PrefabInstance: {fileID: 1667049661}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d67fe8cf2682634429a82e70367b1350, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1920034178
 GameObject:
   m_ObjectHideFlags: 0

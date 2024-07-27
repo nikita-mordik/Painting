@@ -13,6 +13,7 @@ namespace FreedLOW.Painting.UI
     {
         [Header("Color palette")]
         [SerializeField] private CanvasGroup colorPaletteCanvas;
+        [SerializeField] private CUIColorPicker colorPicker;
         [SerializeField] private Slider brushSizeSlider;
         [SerializeField] private TextMeshProUGUI brushSizeText;
         [SerializeField] private Button colorButton;
@@ -56,6 +57,8 @@ namespace FreedLOW.Painting.UI
             
             clearPaintButton.onClick.AddListener(OnClearPaintData);
             savePaintButton.onClick.AddListener(OnSavePaintData);
+            
+            colorPicker.SetOnValueChangeCallback(OnColorChanged);
         }
 
         private void OnBrushSizeChanged(float value)
@@ -128,17 +131,22 @@ namespace FreedLOW.Painting.UI
         {
             _saveLoadService.SaveTexture(_activeObjectName);
         }
+        
+        private void OnColorChanged(Color color)
+        {
+            _paintService.SetBrushColor(color);
+        }
 
         private async UniTask LoadOrInitializeTexture(GameObject go)
         {
             var hasTexture = await _saveLoadService.LoadTexture(_activeObjectName);
             if (hasTexture)
             {
-                go.GetComponent<Material>().mainTexture = _paintService.Texture;
+                go.GetComponent<MeshRenderer>().material.mainTexture = _paintService.Texture;
             }
             else
             {
-                _paintService.InitializeTexture(go.GetComponent<Material>());
+                _paintService.InitializeTexture(go.GetComponent<MeshRenderer>().material);
             }
 
             _paintService.InitializePaintTarget(go.GetComponent<Collider>());
