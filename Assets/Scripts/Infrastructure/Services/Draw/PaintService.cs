@@ -28,6 +28,8 @@ namespace FreedLOW.Painting.Infrastructure.Services.Draw
         public void InitializeTexture(int textureSize = 512, TextureWrapMode wrapMode = TextureWrapMode.Clamp,
             FilterMode filterMode = FilterMode.Bilinear)
         {
+            DisposeTexture();
+            
             //_texture ??= new Texture2D(textureSize, textureSize, TextureFormat.RGBA32, false);
             _texture = new Texture2D(textureSize, textureSize, TextureFormat.RGBA32, false);
             
@@ -78,8 +80,12 @@ namespace FreedLOW.Painting.Infrastructure.Services.Draw
             _texture.Apply();
         }
 
-        public void SetSavedTextureData(byte[] bytes, TextureWrapMode wrapMode = TextureWrapMode.Clamp, FilterMode filterMode = FilterMode.Bilinear)
+        public void SetSavedTextureData(byte[] bytes, int textureSize,
+            TextureWrapMode wrapMode = TextureWrapMode.Clamp, FilterMode filterMode = FilterMode.Bilinear)
         {
+            DisposeTexture();
+            
+            _texture = new Texture2D(textureSize, textureSize, TextureFormat.RGBA32, false);
             _texture.LoadImage(bytes);
             _texture.wrapMode = wrapMode;
             _texture.filterMode = filterMode;
@@ -132,6 +138,12 @@ namespace FreedLOW.Painting.Infrastructure.Services.Draw
             
             _texture.SetPixels(pixels);
             _texture.Apply();
+        }
+
+        private void DisposeTexture()
+        {
+            if (_texture is not null) 
+                Object.Destroy(_texture);
         }
     }
 }

@@ -48,6 +48,10 @@ namespace FreedLOW.Painting.Infrastructure.Installers
 
         private void BindDrawServices()
         {
+            Container.Bind<IPaintPrefsSavedData>()
+                .To<PaintPrefsSavedData>()
+                .AsSingle();
+            
             Container.Bind<IPaintService>()
                 .To<PaintService>()
                 .AsSingle();

@@ -13,7 +13,8 @@ namespace FreedLOW.Painting.Infrastructure.Services.Draw
         void SetBrushColor(Color color);
         void InitializePaintTarget(Collider paintTargetCollider);
         void Draw(Ray ray);
-        void SetSavedTextureData(byte[] bytes, TextureWrapMode wrapMode = TextureWrapMode.Clamp, FilterMode filterMode = FilterMode.Bilinear);
+        void SetSavedTextureData(byte[] bytes, int textureSize,
+            TextureWrapMode wrapMode = TextureWrapMode.Clamp, FilterMode filterMode = FilterMode.Bilinear);
         void ClearTexture();
     }
 }
