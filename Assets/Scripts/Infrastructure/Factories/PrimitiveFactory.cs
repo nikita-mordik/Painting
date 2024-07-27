@@ -1,4 +1,5 @@
 using FreedLOW.Painting.Game;
+using FreedLOW.Painting.Infrastructure.AssetManagement;
 using UnityEngine;
 using Zenject;
 
@@ -6,12 +7,14 @@ namespace FreedLOW.Painting.Infrastructure.Factories
 {
     public class PrimitiveFactory : IPrimitiveFactory
     {
+        private readonly IAssetsProvider _assetsProvider;
         private readonly IInstantiator _instantiator;
 
         private GameObject _activeObject;
 
-        public PrimitiveFactory(IInstantiator instantiator)
+        public PrimitiveFactory(IAssetsProvider assetsProvider, IInstantiator instantiator)
         {
+            _assetsProvider = assetsProvider;
             _instantiator = instantiator;
         }
         
@@ -19,9 +22,9 @@ namespace FreedLOW.Painting.Infrastructure.Factories
         {
             DeleteActiveObject();
             
-            var cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            var prefab = _assetsProvider.LoadAsset(AssetsName.Cube);
+            var cube = _instantiator.InstantiatePrefab(prefab);
             cube.transform.position = at;
-            _instantiator.InstantiateComponent<ObjectRotator>(cube);
             _activeObject = cube;
             return cube;
         }
@@ -30,9 +33,9 @@ namespace FreedLOW.Painting.Infrastructure.Factories
         {
             DeleteActiveObject();
             
-            var sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            var prefab = _assetsProvider.LoadAsset(AssetsName.Sphere);
+            var sphere = _instantiator.InstantiatePrefab(prefab);
             sphere.transform.position = at;
-            _instantiator.InstantiateComponent<ObjectRotator>(sphere);
             _activeObject = sphere;
             return sphere;
         }
@@ -41,9 +44,9 @@ namespace FreedLOW.Painting.Infrastructure.Factories
         {
             DeleteActiveObject();
             
-            var capsule = GameObject.CreatePrimitive(PrimitiveType.Capsule);
+            var prefab = _assetsProvider.LoadAsset(AssetsName.Capsule);
+            var capsule = _instantiator.InstantiatePrefab(prefab);
             capsule.transform.position = at;
-            _instantiator.InstantiateComponent<ObjectRotator>(capsule);
             _activeObject = capsule;
             return capsule;
         }

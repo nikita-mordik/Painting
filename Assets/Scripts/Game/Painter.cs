@@ -21,6 +21,9 @@ namespace FreedLOW.Painting.Game
 
         private void Update()
         {
+            if (!_paintService.IsCanDraw())
+                return;
+            
             if (_inputService.HasClick())
             {
                 Ray ray = mainCamera.ScreenPointToRay(_inputService.GetInput());

@@ -14,15 +14,22 @@ namespace FreedLOW.Painting.Infrastructure.Services.Draw
         
         private Collider _collider;
 
+        private RaycastHit _hit;
         private int _oldRayX;
         private int _oldRayY;
 
         public Texture2D Texture => _texture;
 
-        public void InitializeTexture(Material objectMaterial, int textureSize = 512,
-            TextureWrapMode wrapMode = TextureWrapMode.Clamp, FilterMode filterMode = FilterMode.Bilinear)
+        public bool IsCanDraw()
         {
-            _texture ??= new Texture2D(textureSize, textureSize);
+            return _texture is not null && _collider is not null;
+        }
+
+        public void InitializeTexture(int textureSize = 512, TextureWrapMode wrapMode = TextureWrapMode.Clamp,
+            FilterMode filterMode = FilterMode.Bilinear)
+        {
+            //_texture ??= new Texture2D(textureSize, textureSize, TextureFormat.RGBA32, false);
+            _texture = new Texture2D(textureSize, textureSize, TextureFormat.RGBA32, false);
             
             if (_texture.width != textureSize) 
                 _texture.Reinitialize(textureSize, textureSize);
@@ -31,7 +38,6 @@ namespace FreedLOW.Painting.Infrastructure.Services.Draw
             
             _texture.wrapMode = wrapMode;
             _texture.filterMode = filterMode;
-            objectMaterial.mainTexture = _texture;
             _texture.Apply();
         }
 
@@ -52,17 +58,18 @@ namespace FreedLOW.Painting.Infrastructure.Services.Draw
 
         public void Draw(Ray ray)
         {
-            if (!_collider.Raycast(ray, out var hit, DrawRayDistance)) 
+            if (!_collider.Raycast(ray, out _hit, DrawRayDistance)) 
                 return;
             
-            int rayX = (int)(hit.textureCoord.x * _textureSize);
-            int rayY = (int)(hit.textureCoord.y * _textureSize);
+            //Debug.LogError($"Hit point: {_hit.point}, Texture Coord: {_hit.textureCoord}");
+            
+            int rayX = (int)(_hit.textureCoord.x * _textureSize);
+            int rayY = (int)(_hit.textureCoord.y * _textureSize);
 
-            Debug.LogError($"ray data: {rayX}/{rayY}");
+            //Debug.LogError($"ray data: {rayX}/{rayY}. Size:{_textureSize}");
 
             if (_oldRayX != rayX || _oldRayY != rayY)
             {
-                Debug.LogError("here before draw");
                 DrawCircleBrush(rayX, rayY);
                 _oldRayX = rayX;
                 _oldRayY = rayY;
@@ -122,37 +129,9 @@ namespace FreedLOW.Painting.Infrastructure.Services.Draw
                     }
                 }
             }
-
-            Debug.LogError("here draw");
-
+            
             _texture.SetPixels(pixels);
             _texture.Apply();
         }
-        
-        /*private void DrawCircleBrush(int rayX, int rayY)
-        {
-            for (int y = 0; y < _brushSize; y++)
-            {
-                for (int x = 0; x < _brushSize; x++)
-                {
-                    float x2 = Mathf.Pow(x - _brushSize / 2f, 2f);
-                    float y2 = Mathf.Pow(y - _brushSize / 2f, 2f);
-                    float r2 = Mathf.Pow(_brushSize / 2f - 0.5f, 2f);
-
-                    if (x2 + y2 < r2)
-                    {
-                        int pixelX = rayX + x - _brushSize / 2;
-                        int pixelY = rayY + y - _brushSize / 2;
-
-                        if (pixelX >= 0 && pixelX < _textureSize && pixelY >= 0 && pixelY < _textureSize)
-                        {
-                            Color oldColor = _texture.GetPixel(pixelX, pixelY);
-                            Color resultColor = Color.Lerp(oldColor, _color, _color.a);
-                            _texture.SetPixel(pixelX, pixelY, resultColor);
-                        }
-                    }
-                }
-            }
-        }*/
     }
 }

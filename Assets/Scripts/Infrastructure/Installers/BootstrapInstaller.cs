@@ -1,3 +1,4 @@
+using FreedLOW.Painting.Infrastructure.AssetManagement;
 using FreedLOW.Painting.Infrastructure.Factories;
 using FreedLOW.Painting.Infrastructure.Services.Draw;
 using FreedLOW.Painting.Infrastructure.Services.Input;
@@ -9,11 +10,20 @@ namespace FreedLOW.Painting.Infrastructure.Installers
     {
         public override void InstallBindings()
         {
+            BindAssetsProvider();
+            
             BindFactories();
 
             BindInputService();
             
             BindDrawServices();
+        }
+
+        private void BindAssetsProvider()
+        {
+            Container.Bind<IAssetsProvider>()
+                .To<AssetsProvider>()
+                .AsSingle();
         }
 
         private void BindFactories()

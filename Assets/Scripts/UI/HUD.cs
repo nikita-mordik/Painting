@@ -59,6 +59,7 @@ namespace FreedLOW.Painting.UI
             savePaintButton.onClick.AddListener(OnSavePaintData);
             
             colorPicker.SetOnValueChangeCallback(OnColorChanged);
+            _paintService.SetBrushColor(colorPicker.Color);
         }
 
         private void OnBrushSizeChanged(float value)
@@ -140,14 +141,10 @@ namespace FreedLOW.Painting.UI
         private async UniTask LoadOrInitializeTexture(GameObject go)
         {
             var hasTexture = await _saveLoadService.LoadTexture(_activeObjectName);
-            if (hasTexture)
-            {
-                go.GetComponent<MeshRenderer>().material.mainTexture = _paintService.Texture;
-            }
-            else
-            {
-                _paintService.InitializeTexture(go.GetComponent<MeshRenderer>().material);
-            }
+            if (!hasTexture) 
+                _paintService.InitializeTexture();
+            
+            go.GetComponent<Renderer>().material.mainTexture = _paintService.Texture;
 
             _paintService.InitializePaintTarget(go.GetComponent<Collider>());
         }
