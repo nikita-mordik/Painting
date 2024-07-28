@@ -15,7 +15,14 @@ namespace FreedLOW.Painting.Game
         {
             _inputService = inputService;
         }
-        
+
+#if UNITY_IOS || UNITY_ANDROID
+        private void Start()
+        {
+            rotationSpeed = 20f;
+        }
+#endif
+
         private void Update()
         {
             _inputService.UpdateRotation();

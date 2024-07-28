@@ -28,7 +28,6 @@ namespace FreedLOW.Painting.Infrastructure.Services.Draw
         {
             DisposeTexture();
             
-            //_texture ??= new Texture2D(textureSize, textureSize, TextureFormat.RGBA32, false);
             _texture = new Texture2D(textureSize, textureSize, TextureFormat.RGBA32, false);
             
             if (_texture.width != textureSize) 
@@ -54,23 +53,22 @@ namespace FreedLOW.Painting.Infrastructure.Services.Draw
             
             int rayX = (int)(_hit.textureCoord.x * _textureSize);
             int rayY = (int)(_hit.textureCoord.y * _textureSize);
-
+            
             if (_oldRayX != rayX || _oldRayY != rayY)
             {
                 DrawCircleBrush(rayX, rayY);
                 _oldRayX = rayX;
                 _oldRayY = rayY;
             }
-
-            _texture.Apply();
         }
 
         public void SetSavedTextureData(byte[] bytes, int textureSize,
             TextureWrapMode wrapMode = TextureWrapMode.Clamp, FilterMode filterMode = FilterMode.Bilinear)
         {
             DisposeTexture();
-            
-            _texture = new Texture2D(textureSize, textureSize, TextureFormat.RGBA32, false);
+
+            _textureSize = textureSize;
+            _texture = new Texture2D(_textureSize, _textureSize, TextureFormat.RGBA32, false);
             _texture.LoadImage(bytes);
             _texture.wrapMode = wrapMode;
             _texture.filterMode = filterMode;
