@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using FreedLOW.Painting.CuiColorPicker;
 using FreedLOW.Painting.Extensions;
 using FreedLOW.Painting.Infrastructure.Factories;
 using FreedLOW.Painting.Infrastructure.Services.Draw;
